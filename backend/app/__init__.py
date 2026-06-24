@@ -3,6 +3,7 @@ import os
 
 from app.config import Config
 from app.routes.auth import auth_bp
+from app.routes.categorias import categorias_bp
 from app.routes.dashboard import dashboard_bp
 from app.routes.movimientos import movimientos_bp
 from app.routes.productos import productos_bp
@@ -41,6 +42,7 @@ def create_app(config_class=Config):
         )
 
     app.register_blueprint(auth_bp)
+    app.register_blueprint(categorias_bp)
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(productos_bp)
     app.register_blueprint(movimientos_bp)
