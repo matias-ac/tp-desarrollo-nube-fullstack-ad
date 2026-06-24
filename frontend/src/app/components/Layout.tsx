@@ -105,7 +105,7 @@ export function Layout({ children }: { children: ReactNode }) {
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuLabel className="text-xs font-medium text-slate-500 uppercase tracking-wider">{user?.id}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => { logout(); navigate("/"); }} className="text-red-600 hover:bg-red-50">
+                <DropdownMenuItem onClick={async () => { await logout(); navigate("/"); }} className="text-red-600 hover:bg-red-50">
                   <LogOut size={14} />
                   Cerrar Sesión
                 </DropdownMenuItem>
