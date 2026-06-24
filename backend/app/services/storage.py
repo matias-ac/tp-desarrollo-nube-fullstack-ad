@@ -15,8 +15,6 @@ def get_db():
 
     # Si el archivo no existe, inicializarlo con estructura vacía
     if not os.path.exists(path):
-        default_db = {"categorias": [], "productos": [], "movimientos": []}
-
         # Aseguramos que el nombre coincida con lo definido en TODO_BACKEND.md
         default_db = {"categorias": [], "productos": [], "movimientos": []}
         save_db(default_db)

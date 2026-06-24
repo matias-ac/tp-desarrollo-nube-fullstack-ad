@@ -19,7 +19,7 @@ class Config:
     AD_ADMIN_DN = os.environ.get(
         "AD_ADMIN_DN", "CN=Administrator,CN=Users,DC=IFTS,DC=LOCAL"
     )
-    AD_ADMIN_PASSWORD = os.environ.get("AD_ADMIN_PASSOWRD", "")
+    AD_ADMIN_PASSWORD = os.environ.get("AD_ADMIN_PASSWORD", "")
 
     # Mapeo de grupos de seguridad a roles
     AD_MAP_ADMIN = os.environ.get("AD_MAP_ADMIN", "GG_Gerencia")
