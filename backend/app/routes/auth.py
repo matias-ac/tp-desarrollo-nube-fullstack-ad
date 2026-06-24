@@ -25,7 +25,11 @@ def login():
         return jsonify({"error": str(e)}), 403
 
     # 2. Autenticar contra AD
-    user_data = authenticate_user(username, password)
+    try:
+        user_data = authenticate_user(username, password)
+    except RuntimeError as e:
+        return jsonify({"error": str(e)}), 503
+
     if user_data is None:
         return jsonify({"error": "Credenciales inválidas"}), 401
 

@@ -6,7 +6,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-backend/app.og
+backend/app.log
 
 # Datos y variables de entorno del backend
 backend/.env
