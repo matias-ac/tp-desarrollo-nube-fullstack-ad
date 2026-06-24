@@ -1,5 +1,6 @@
 from app.services.storage import get_db, get_next_id, save_db
 from app.utils.decorators import jwt_required, require_role
+from app.utils.helpers import sanitizar_input, validar_campo_numerico
 from flask import Blueprint, jsonify, request
 
 productos_bp = Blueprint("productos", __name__)
@@ -59,7 +60,7 @@ def crear_producto():
     if not data:
         return jsonify({"error": "Se requiere cuerpo JSON"}), 400
 
-    nombre = data.get("nombre")
+    nombre = sanitizar_input(data.get("nombre"))
     categoria_id = data.get("categoria_id")
     stock_actual = data.get("stock_actual", 0)
     stock_minimo = data.get("stock_minimo", 0)
@@ -73,10 +74,10 @@ def crear_producto():
             400,
         )
 
-    if precio_unitario <= 0:
+    if not validar_campo_numerico(precio_unitario, minimo=0.01):
         return jsonify({"error": "El precio unitario debe ser mayor a 0"}), 400
 
-    if stock_actual < 0:
+    if not validar_campo_numerico(stock_actual):
         return jsonify({"error": "El stock actual no puede ser negativo"}), 400
 
     db = get_db()
@@ -114,20 +115,20 @@ def actualizar_producto(producto_id):
         return jsonify({"error": "Se requiere cuerpo JSON"}), 400
 
     if "nombre" in data:
-        producto["nombre"] = data["nombre"]
+        producto["nombre"] = sanitizar_input(data["nombre"])
     if "categoria_id" in data:
         categorias = {c["id"] for c in db["categorias"]}
         if data["categoria_id"] not in categorias:
             return jsonify({"error": "Categoría no válida"}), 400
         producto["categoria_id"] = data["categoria_id"]
     if "stock_actual" in data:
-        if data["stock_actual"] < 0:
+        if not validar_campo_numerico(data["stock_actual"]):
             return jsonify({"error": "El stock actual no puede ser negativo"}), 400
         producto["stock_actual"] = data["stock_actual"]
     if "stock_minimo" in data:
         producto["stock_minimo"] = data["stock_minimo"]
     if "precio_unitario" in data:
-        if data["precio_unitario"] <= 0:
+        if not validar_campo_numerico(data["precio_unitario"], minimo=0.01):
             return jsonify({"error": "El precio unitario debe ser mayor a 0"}), 400
         producto["precio_unitario"] = data["precio_unitario"]
 

@@ -2,6 +2,7 @@ from datetime import datetime
 
 from app.services.storage import get_db, get_next_id, save_db
 from app.utils.decorators import jwt_required, require_role
+from app.utils.helpers import sanitizar_input, validar_campo_numerico
 from flask import Blueprint, g, jsonify, request
 
 movimientos_bp = Blueprint("movimientos", __name__)
@@ -57,7 +58,7 @@ def registrar_movimiento():
     producto_id = data.get("producto_id")
     tipo = data.get("tipo")
     cantidad = data.get("cantidad")
-    observacion = data.get("observacion", "")
+    observacion = sanitizar_input(data.get("observacion", ""))
 
     if not producto_id or not tipo or not cantidad:
         return jsonify({"error": "Campos requeridos: producto_id, tipo, cantidad"}), 400
@@ -65,7 +66,7 @@ def registrar_movimiento():
     if tipo not in ("ingreso", "egreso", "ajuste"):
         return jsonify({"error": "Tipo debe ser: ingreso, egreso o ajuste"}), 400
 
-    if cantidad <= 0:
+    if not validar_campo_numerico(cantidad, minimo=1):
         return jsonify({"error": "La cantidad debe ser mayor a 0"}), 400
 
     db = get_db()
