@@ -1,15 +1,22 @@
 import { Download, FileSpreadsheet } from "lucide-react";
+import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 
 const BASE = "/api/reportes/export";
 
-function descargar(tipo: string, label: string) {
+function descargar(tipo: string) {
   const token = localStorage.getItem("token");
   const url = `${BASE}?tipo=${tipo}`;
 
   fetch(url, { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => {
+      if (res.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "/";
+        throw new Error("Sesión expirada");
+      }
       if (!res.ok) throw new Error("Error al descargar");
       return res.blob();
     })
@@ -20,7 +27,7 @@ function descargar(tipo: string, label: string) {
       a.click();
       URL.revokeObjectURL(a.href);
     })
-    .catch(() => {});
+    .catch((err) => toast.error(err.message));
 }
 
 export function Reportes() {

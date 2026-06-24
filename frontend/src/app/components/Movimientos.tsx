@@ -40,7 +40,7 @@ export function Movimientos() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    api.get<{ productos: ProductoItem[] }>("/productos").then((d) => setProductos(d.productos)).catch(() => {});
+    api.get<{ productos: ProductoItem[] }>("/productos").then((d) => setProductos(d.productos)).catch(() => toast.error("Error al cargar los productos"));
   }, []);
 
   useEffect(() => {
@@ -72,7 +72,9 @@ export function Movimientos() {
   };
 
   const formatDate = (iso: string) => {
+    if (!iso) return "—";
     const d = new Date(iso);
+    if (isNaN(d.getTime())) return "—";
     return d.toLocaleString("es-AR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
   };
 

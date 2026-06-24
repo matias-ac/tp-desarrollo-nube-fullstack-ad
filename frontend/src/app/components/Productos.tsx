@@ -35,7 +35,7 @@ export function Productos() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    api.get<{ categorias: Categoria[] }>("/categorias").then((d) => setCategorias(d.categorias)).catch(() => {});
+    api.get<{ categorias: Categoria[] }>("/categorias").then((d) => setCategorias(d.categorias)).catch(() => toast.error("Error al cargar las categorías"));
   }, []);
 
   const filtered = productos.filter((p) =>
