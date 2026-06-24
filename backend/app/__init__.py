@@ -1,5 +1,6 @@
 from app.config import Config
 from app.routes.auth import auth_bp
+from app.routes.dashboard import dashboard_bp
 from flask import Flask, jsonify
 from flask_cors import CORS
 
@@ -25,5 +26,6 @@ def create_app(config_class=Config):
         )
 
     app.register_blueprint(auth_bp)
+    app.register_blueprint(dashboard_bp)
 
     return app
