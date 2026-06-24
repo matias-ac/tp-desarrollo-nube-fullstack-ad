@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 const BASE_URL = "/api";
 
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -11,7 +13,13 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${BASE_URL}${endpoint}`, { ...options, headers });
+  let res: Response;
+  try {
+    res = await fetch(`${BASE_URL}${endpoint}`, { ...options, headers });
+  } catch {
+    toast.error("Error de conexión con el servidor");
+    throw new Error("Error de conexión");
+  }
 
   if (res.status === 401) {
     localStorage.removeItem("token");

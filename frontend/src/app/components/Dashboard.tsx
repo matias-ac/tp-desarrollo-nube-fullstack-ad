@@ -1,9 +1,9 @@
-import { Loader2 } from "lucide-react";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line, Legend,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Skeleton } from "./ui/skeleton";
 import { useDashboardData } from "../hooks/useDashboardData";
 
 const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#6366f1"];
@@ -13,10 +13,21 @@ export function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="flex items-center gap-3 text-slate-500">
-          <Loader2 size={24} className="animate-spin" />
-          <span className="text-lg">Cargando dashboard...</span>
+      <div className="max-w-7xl mx-auto space-y-6">
+        <div className="space-y-2">
+          <Skeleton className="h-8 w-64" />
+          <Skeleton className="h-4 w-48" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton key={i} className="h-28 rounded-xl" />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <Skeleton key={i} className="h-80 rounded-xl" />
+          ))}
+          <Skeleton className="h-64 rounded-xl lg:col-span-2" />
         </div>
       </div>
     );

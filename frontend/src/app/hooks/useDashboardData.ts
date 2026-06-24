@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 import { api } from "../services/api";
 
 interface Summary {
@@ -44,7 +45,7 @@ export function useDashboardData() {
         setMovementsWeekly(mw);
         setCategoryDist(cd);
       })
-      .catch(console.error)
+      .catch(() => toast.error("Error al cargar los datos del dashboard"))
       .finally(() => setLoading(false));
   }, []);
 
