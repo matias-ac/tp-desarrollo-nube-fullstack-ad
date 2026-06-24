@@ -1,4 +1,5 @@
 from app.config import Config
+from app.routes.auth import auth_bp
 from flask import Flask, jsonify
 from flask_cors import CORS
 
@@ -22,5 +23,7 @@ def create_app(config_class=Config):
             ),
             200,
         )
+
+    app.register_blueprint(auth_bp)
 
     return app
