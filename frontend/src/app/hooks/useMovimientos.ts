@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { toast } from "sonner";
 import { api } from "../services/api";
 
 export interface Movimiento {
@@ -30,7 +31,7 @@ export function useMovimientos() {
       const data = await api.get<{ movimientos: Movimiento[] }>(`/movimientos${params}`);
       setMovimientos(data.movimientos);
     } catch {
-      // error handled by api.ts
+      toast.error("Error al cargar los movimientos");
     } finally {
       setLoading(false);
     }

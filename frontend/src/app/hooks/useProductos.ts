@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { toast } from "sonner";
 import { api } from "../services/api";
 
 export interface Producto {
@@ -29,7 +30,7 @@ export function useProductos() {
       const data = await api.get<{ productos: Producto[] }>("/productos");
       setProductos(data.productos);
     } catch {
-      // error handled by api.ts
+      toast.error("Error al cargar los productos");
     } finally {
       setLoading(false);
     }
