@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { Package, ShieldAlert, Loader2 } from "lucide-react";
+import { Button } from "./ui/button";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 
@@ -83,14 +84,14 @@ export function Login() {
             </p>
           </div>
 
-          <button
+          <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition-colors mt-2 shadow-md shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full mt-2 bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-500/20"
           >
             {loading && <Loader2 size={18} className="animate-spin" />}
             {loading ? "Autenticando..." : "Iniciar Sesión"}
-          </button>
+          </Button>
         </form>
       </div>
     </div>
