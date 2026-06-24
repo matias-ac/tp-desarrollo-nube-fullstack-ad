@@ -14,12 +14,13 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { useAuth } from "../contexts/AuthContext";
+import { canViewProductos, canViewMovimientos, canViewReportes } from "../utils/permissions";
 
 const navItems = [
-  { label: "Vista General de Stock", path: "/dashboard", icon: LayoutDashboard, roles: ["Admin", "Operador", "Consulta"] },
-  { label: "Gestión de Productos", path: "/productos", icon: PackageSearch, roles: ["Admin", "Operador"] },
-  { label: "Movimientos", path: "/movimientos", icon: ArrowRightLeft, roles: ["Admin", "Operador"] },
-  { label: "Reportes", path: "/reportes", icon: FileBarChart, roles: ["Admin"] },
+  { label: "Vista General de Stock", path: "/dashboard", icon: LayoutDashboard, visible: () => true },
+  { label: "Gestión de Productos", path: "/productos", icon: PackageSearch, visible: (u: Parameters<typeof canViewProductos>[0]) => canViewProductos(u) },
+  { label: "Movimientos", path: "/movimientos", icon: ArrowRightLeft, visible: (u: Parameters<typeof canViewMovimientos>[0]) => canViewMovimientos(u) },
+  { label: "Reportes", path: "/reportes", icon: FileBarChart, visible: (u: Parameters<typeof canViewReportes>[0]) => canViewReportes(u) },
 ];
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -33,11 +34,7 @@ export function Layout({ children }: { children: ReactNode }) {
     setTimeStatus(hour >= 8 && hour < 18);
   }, []);
 
-
-
-  const filteredNav = navItems.filter(
-    (item) => user && item.roles.includes(user.role)
-  );
+  const filteredNav = navItems.filter((item) => item.visible(user));
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
