@@ -1,6 +1,8 @@
 import re
 from datetime import datetime
 
+from ldap3.utils.conv import escape_filter_chars as ldap_escape
+
 from flask import current_app
 from ldap3 import ALL, SUBTREE, Connection, Server
 
@@ -69,6 +71,11 @@ def authenticate_user(username, password):
     if '\\' in username:
         username = username.split('\\')[-1]
 
+    # Validar que el username solo contenga caracteres permitidos en AD
+    if not re.match(r'^[a-zA-Z0-9._@-]+$', username):
+        current_app.logger.warning(f"Intento de login con username inválido: '{username}'")
+        return None
+
     # 1. Conexión de búsqueda con cuenta adminsitrativa
     try:
         admin_conn = get_ldap_connection()
@@ -77,7 +84,7 @@ def authenticate_user(username, password):
         raise RuntimeError("No se pudo establecer conexión con el servidor de autenticación.")
 
     base_dn = current_app.config['AD_BASE_DN']
-    search_filter = f'(sAMAccountName={username})'
+    search_filter = f'(sAMAccountName={ldap_escape(username)})'
 
     try:
         # Buscar usuario en todo el árbol bajo el Base DN
