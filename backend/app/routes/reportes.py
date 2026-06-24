@@ -1,4 +1,5 @@
 import csv
+import re
 from io import StringIO
 
 from app.services.storage import get_db
@@ -6,6 +7,16 @@ from app.utils.decorators import jwt_required, require_role
 from flask import Blueprint, Response, jsonify, request
 
 reportes_bp = Blueprint("reportes", __name__)
+
+# Caracteres que pueden iniciar una fórmula en Excel/LibreOffice
+INJECTION_RE = re.compile(r'^[=+\-@\t\r]')
+
+
+def sanitizar_csv(valor):
+    """Previene CSV injection anteponiendo un espacio si el valor empieza con caracter peligroso."""
+    if isinstance(valor, str) and INJECTION_RE.match(valor):
+        return "'" + valor
+    return valor
 
 
 @reportes_bp.route("/api/reportes/export", methods=["GET"])
@@ -35,8 +46,8 @@ def exportar():
         for p in db["productos"]:
             writer.writerow(
                 [
-                    p["nombre"],
-                    categorias.get(p["categoria_id"], "Sin categoría"),
+                    sanitizar_csv(p["nombre"]),
+                    sanitizar_csv(categorias.get(p["categoria_id"], "Sin categoría")),
                     p["stock_actual"],
                     p["stock_minimo"],
                     p["precio_unitario"],
@@ -54,11 +65,11 @@ def exportar():
             writer.writerow(
                 [
                     m["created_at"],
-                    productos.get(m["producto_id"], "Producto eliminado"),
+                    sanitizar_csv(productos.get(m["producto_id"], "Producto eliminado")),
                     m["tipo"],
                     m["cantidad"],
                     m["usuario_id"],
-                    m.get("observacion", ""),
+                    sanitizar_csv(m.get("observacion", "")),
                 ]
             )
         filename = "movimientos.csv"

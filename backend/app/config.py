@@ -7,7 +7,9 @@ load_dotenv()
 
 
 class Config:
-    SECRET_KEY = os.environ.get("SECRET_KEY", "default-fallback-secret-key")
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+    if not SECRET_KEY:
+        raise ValueError("SECRET_KEY no está configurada. Definila en el archivo .env")
     PORT = int(os.environ.get("PORT", 5000))
 
     # Configuración de LDAP / Active Directory
