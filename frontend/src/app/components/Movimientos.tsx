@@ -45,7 +45,7 @@ export function Movimientos() {
 
   useEffect(() => {
     const params: Record<string, string> = {};
-    if (filtroTipo) params.tipo = filtroTipo;
+    if (filtroTipo && filtroTipo !== "todos") params.tipo = filtroTipo;
     listar(params);
   }, [filtroTipo, listar]);
 
@@ -118,7 +118,7 @@ export function Movimientos() {
             <SelectValue placeholder="Todos los tipos" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value=" ">Todos</SelectItem>
+            <SelectItem value="todos">Todos</SelectItem>
             <SelectItem value="ingreso">Ingreso</SelectItem>
             <SelectItem value="egreso">Egreso</SelectItem>
             <SelectItem value="ajuste">Ajuste</SelectItem>

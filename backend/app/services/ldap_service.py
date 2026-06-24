@@ -12,7 +12,13 @@ def check_access_hours():
     Verifica si la hora actual está dentro del rango permitido (08:00 a 18:00 hs)
     y en días hábiles (lunes a viernes).
     Lanza un PermissionError si está fuera del rango.
+
+    Para pruebas o presentaciones, se puede deshabilitar la restricción horaria
+    configurando BYPASS_ACCESS_HOURS=True en el archivo .env
     """
+    if current_app.config.get("BYPASS_ACCESS_HOURS", False):
+        return
+
     now = datetime.now()
     weekday = now.weekday()  # 0 = Lunes, 6 = Domingo
     hour = now.hour

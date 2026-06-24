@@ -4,7 +4,6 @@ import {
   LayoutDashboard, PackageSearch, ArrowRightLeft, FileBarChart,
   Clock, LogOut, ChevronDown, Bell,
 } from "lucide-react";
-import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -89,23 +88,21 @@ export function Layout({ children }: { children: ReactNode }) {
               <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-3 p-1.5 rounded-lg h-auto">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
-                    {user?.id?.charAt(0).toUpperCase()}
-                  </div>
-                  <div className="text-left hidden md:block">
-                    <p className="text-sm font-semibold text-slate-700 leading-tight">{user?.name}</p>
-                    <p className="text-xs text-slate-500">{user?.role}</p>
-                  </div>
-                  <ChevronDown size={16} className="text-slate-400" />
-                </Button>
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger className="hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] p-1.5 h-auto">
+                <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
+                  {user?.id?.charAt(0).toUpperCase()}
+                </div>
+                <div className="text-left hidden md:block">
+                  <p className="text-sm font-semibold text-slate-700 leading-tight">{user?.name}</p>
+                  <p className="text-xs text-slate-500">{user?.role}</p>
+                </div>
+                <ChevronDown size={16} className="text-slate-400" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuLabel className="text-xs font-medium text-slate-500 uppercase tracking-wider">{user?.id}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={async () => { await logout(); navigate("/"); }} className="text-red-600 hover:bg-red-50">
+                <DropdownMenuItem onSelect={() => { logout().then(() => navigate("/")); }} className="text-red-600 hover:bg-red-50 focus:bg-red-50">
                   <LogOut size={14} />
                   Cerrar Sesión
                 </DropdownMenuItem>

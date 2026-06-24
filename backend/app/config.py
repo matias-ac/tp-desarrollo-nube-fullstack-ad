@@ -27,6 +27,9 @@ class Config:
     AD_MAP_OPERADOR = os.environ.get("AD_MAP_OPERADOR", "GG_Soporte")
     AD_MAP_CONSULTA = os.environ.get("AD_MAP_CONSULTA", "GG_RRHH")
 
+    # Bypass de restricción horaria (para pruebas y presentaciones)
+    BYPASS_ACCESS_HOURS = os.environ.get("BYPASS_ACCESS_HOURS", "False").lower() in ("true", "1", "t")
+
     # Configuración de JWT
     JWT_EXPIRATION_HOURS = int(os.environ.get("JWT_EXPIRATION_HOURS", 8))
 

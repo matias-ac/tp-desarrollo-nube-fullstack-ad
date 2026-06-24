@@ -97,7 +97,8 @@ def crear_producto():
     db["productos"].append(nuevo)
     save_db(db)
 
-    return jsonify(nuevo), 201
+    categorias = {c["id"]: c["nombre"] for c in db["categorias"]}
+    return jsonify({**nuevo, "categoria_nombre": categorias.get(nuevo["categoria_id"], "Sin categoría")}), 201
 
 
 @productos_bp.route("/api/productos/<int:producto_id>", methods=["PUT"])
@@ -134,7 +135,8 @@ def actualizar_producto(producto_id):
 
     save_db(db)
 
-    return jsonify(producto), 200
+    categorias = {c["id"]: c["nombre"] for c in db["categorias"]}
+    return jsonify({**producto, "categoria_nombre": categorias.get(producto["categoria_id"], "Sin categoría")}), 200
 
 
 @productos_bp.route("/api/productos/<int:producto_id>", methods=["DELETE"])

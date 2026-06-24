@@ -99,4 +99,5 @@ def registrar_movimiento():
     db["movimientos"].append(nuevo)
     save_db(db)
 
-    return jsonify(nuevo), 201
+    productos = {p["id"]: p["nombre"] for p in db["productos"]}
+    return jsonify({**nuevo, "producto_nombre": productos.get(nuevo["producto_id"], "Producto eliminado")}), 201
