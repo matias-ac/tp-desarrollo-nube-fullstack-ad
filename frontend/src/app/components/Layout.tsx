@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router";
 import {
   LayoutDashboard, PackageSearch, ArrowRightLeft, FileBarChart,
@@ -27,12 +27,9 @@ export function Layout({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
-  const [timeStatus, setTimeStatus] = useState(true);
 
-  useEffect(() => {
-    const hour = new Date().getHours();
-    setTimeStatus(hour >= 8 && hour < 18);
-  }, []);
+  const hour = new Date().getHours();
+  const timeStatus = hour >= 8 && hour < 18;
 
   const filteredNav = navItems.filter((item) => item.visible(user));
 
@@ -67,7 +64,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <p className="text-slate-400 mb-1">Sincronización AD:</p>
             <p className="text-emerald-400 font-medium flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              Conectado
+              Verificado al inicio de sesión
             </p>
           </div>
         </div>
