@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { 
+import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line, Legend
 } from 'recharts';
-import { 
-  LayoutDashboard, PackageSearch, ArrowRightLeft, FileBarChart, 
+import {
+  LayoutDashboard, PackageSearch, ArrowRightLeft, FileBarChart,
   Clock, LogOut, ChevronDown, Bell
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { useAuth } from "../contexts/AuthContext";
 
 const barData = [
   { name: 'Laptops', ventas: 120 },
@@ -44,6 +45,7 @@ export function Dashboard() {
   const [currentUser, setCurrentUser] = useState(users[0]);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [timeStatus, setTimeStatus] = useState(true);
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     // Check if within access range 8:00 - 18:00 for aesthetic status indicator
@@ -92,22 +94,21 @@ export function Dashboard() {
         {/* Header */}
         <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-10">
           <div className="flex items-center gap-2">
-            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border ${
-              timeStatus ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
-            }`}>
+            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border ${timeStatus ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
+              }`}>
               <Clock size={14} />
               {timeStatus ? 'Hora actual dentro del rango de acceso' : 'Fuera del rango de acceso óptimo'}
             </div>
           </div>
-          
+
           <div className="flex items-center gap-4 md:gap-6">
             <button className="text-slate-400 hover:text-slate-600 relative">
               <Bell size={20} />
               <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
-            
+
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                 className="flex items-center gap-3 hover:bg-slate-50 p-1.5 rounded-lg transition-colors"
               >
@@ -133,16 +134,15 @@ export function Dashboard() {
                         setCurrentUser(u);
                         setIsProfileOpen(false);
                       }}
-                      className={`w-full text-left px-4 py-2 text-sm ${
-                        currentUser.id === u.id ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-50'
-                      }`}
+                      className={`w-full text-left px-4 py-2 text-sm ${currentUser.id === u.id ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-50'
+                        }`}
                     >
                       {u.id} <span className="text-xs text-slate-400 ml-1">({u.role})</span>
                     </button>
                   ))}
                   <div className="border-t border-slate-100 mt-1">
-                    <button 
-                      onClick={() => navigate('/')}
+                    <button
+                      onClick={() => { logout(); navigate('/'); }}
                       className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
                     >
                       <LogOut size={14} />
@@ -175,9 +175,8 @@ export function Dashboard() {
                   <p className="text-sm font-medium text-slate-500">{stat.title}</p>
                   <div className="flex items-end justify-between mt-2">
                     <p className="text-2xl font-bold text-slate-800">{stat.value}</p>
-                    <span className={`text-xs font-semibold ${
-                      stat.change.startsWith('+') ? 'text-emerald-600' : 'text-rose-600'
-                    }`}>
+                    <span className={`text-xs font-semibold ${stat.change.startsWith('+') ? 'text-emerald-600' : 'text-rose-600'
+                      }`}>
                       {stat.change}
                     </span>
                   </div>
@@ -187,7 +186,7 @@ export function Dashboard() {
 
             {/* Charts Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              
+
               {/* Productos más vendidos */}
               <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                 <h3 className="text-lg font-semibold text-slate-800 mb-4">Productos más vendidos</h3>
@@ -195,9 +194,9 @@ export function Dashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={barData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                      <XAxis dataKey="name" tick={{fill: '#64748b', fontSize: 12}} tickLine={false} axisLine={false} />
-                      <YAxis tick={{fill: '#64748b', fontSize: 12}} tickLine={false} axisLine={false} />
-                      <RechartsTooltip cursor={{fill: '#f1f5f9'}} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                      <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} tickLine={false} axisLine={false} />
+                      <YAxis tick={{ fill: '#64748b', fontSize: 12 }} tickLine={false} axisLine={false} />
+                      <RechartsTooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
                       <Bar dataKey="ventas" fill="#3b82f6" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
@@ -211,12 +210,12 @@ export function Dashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={lineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                      <XAxis dataKey="day" tick={{fill: '#64748b', fontSize: 12}} tickLine={false} axisLine={false} />
-                      <YAxis tick={{fill: '#64748b', fontSize: 12}} tickLine={false} axisLine={false} />
+                      <XAxis dataKey="day" tick={{ fill: '#64748b', fontSize: 12 }} tickLine={false} axisLine={false} />
+                      <YAxis tick={{ fill: '#64748b', fontSize: 12 }} tickLine={false} axisLine={false} />
                       <RechartsTooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
                       <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
-                      <Line type="monotone" dataKey="entradas" stroke="#10b981" strokeWidth={3} dot={{r: 4, fill: '#10b981', strokeWidth: 2, stroke: '#fff'}} />
-                      <Line type="monotone" dataKey="salidas" stroke="#f43f5e" strokeWidth={3} dot={{r: 4, fill: '#f43f5e', strokeWidth: 2, stroke: '#fff'}} />
+                      <Line type="monotone" dataKey="entradas" stroke="#10b981" strokeWidth={3} dot={{ r: 4, fill: '#10b981', strokeWidth: 2, stroke: '#fff' }} />
+                      <Line type="monotone" dataKey="salidas" stroke="#f43f5e" strokeWidth={3} dot={{ r: 4, fill: '#f43f5e', strokeWidth: 2, stroke: '#fff' }} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
@@ -227,7 +226,7 @@ export function Dashboard() {
                 <div className="w-full md:w-1/2">
                   <h3 className="text-lg font-semibold text-slate-800 mb-2">Distribución de stock por categoría</h3>
                   <p className="text-sm text-slate-500 mb-6">Proporción del inventario total distribuido en las principales familias de productos.</p>
-                  
+
                   <div className="space-y-3">
                     {pieData.map((entry, index) => (
                       <div key={index} className="flex items-center justify-between">
@@ -240,7 +239,7 @@ export function Dashboard() {
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="w-full md:w-1/2 h-64 mt-6 md:mt-0">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
