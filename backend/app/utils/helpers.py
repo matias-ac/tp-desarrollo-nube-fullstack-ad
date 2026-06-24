@@ -9,7 +9,7 @@ def sanitizar_input(texto, max_length=100):
     return texto[:max_length]
 
 
-def validar_campo_numerico(valor, minimo=0, maximo=None):
+def validar_campo_numerico(valor, minimo=0.0, maximo=None):
     if not isinstance(valor, (int, float)):
         return False
     if valor < minimo:
