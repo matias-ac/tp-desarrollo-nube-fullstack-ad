@@ -51,13 +51,13 @@ export function Login() {
             <Package size={32} />
           </div>
           <h1 className="text-2xl font-bold text-slate-800">Control de Stock - Acceso</h1>
-          <p className="text-slate-500 text-sm mt-2 text-center">Sistema integral con Active Directory</p>
+          {/* <p className="text-slate-500 text-sm mt-2 text-center">Sistema integral con Active Directory</p> */}
         </div>
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="username">
-              Usuario AD
+              Usuario
             </label>
             <input
               id="username"
@@ -65,7 +65,7 @@ export function Login() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-              placeholder="dominio\usuario"
+              placeholder="logon.name"
               required
               disabled={loading}
             />

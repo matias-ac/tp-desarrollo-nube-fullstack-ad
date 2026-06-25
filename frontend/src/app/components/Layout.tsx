@@ -37,7 +37,7 @@ export function Layout({ children }: { children: ReactNode }) {
       {/* Sidebar */}
       <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex">
         <div className="h-16 flex items-center px-6 border-b border-slate-800">
-          <span className="text-white font-bold text-lg tracking-wide">StockControl AD</span>
+          <span className="text-white font-bold text-lg tracking-wide">Control de Stock</span>
         </div>
         <nav className="flex-1 py-6 px-3 space-y-1 text-sm font-medium">
           {filteredNav.map((item) => {
@@ -46,11 +46,10 @@ export function Layout({ children }: { children: ReactNode }) {
               <button
                 key={item.path}
                 onClick={() => navigate(item.path)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-left ${
-                  isActive
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-left ${isActive
                     ? "bg-blue-600/10 text-blue-400"
                     : "hover:bg-slate-800 hover:text-white"
-                }`}
+                  }`}
               >
                 <item.icon size={18} />
                 {item.label}
@@ -74,9 +73,8 @@ export function Layout({ children }: { children: ReactNode }) {
         {/* Header */}
         <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-10">
           <div className="flex items-center gap-2">
-            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border ${
-              timeStatus ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-amber-50 text-amber-700 border-amber-200"
-            }`}>
+            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border ${timeStatus ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-amber-50 text-amber-700 border-amber-200"
+              }`}>
               <Clock size={14} />
               {timeStatus ? "Hora actual dentro del rango de acceso" : "Fuera del rango de acceso óptimo"}
             </div>
