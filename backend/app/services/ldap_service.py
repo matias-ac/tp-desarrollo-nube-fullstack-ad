@@ -11,18 +11,6 @@ _AD_DAY_TO_PYTHON = {0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5}
 
 
 def decodificar_logon_hours(data):
-    """
-    Decodifica el atributo logonHours de AD (21 bytes, 168 bits).
-
-    Cada bit representa una hora de la semana:
-      bit 0   = Domingo 00:00-01:00
-      bit 23  = Domingo 23:00-24:00
-      bit 24  = Lunes 00:00-01:00
-      ...
-      bit 167 = Sábado 23:00-24:00
-
-    Retorna un dict {python_weekday: [horas_permitidas]} o None si no hay datos.
-    """
     if not data:
         return None
 
@@ -48,15 +36,6 @@ def decodificar_logon_hours(data):
 
 
 def check_access_hours(logon_hours=None):
-    """
-    Verifica si la hora actual está dentro del horario permitido para el usuario.
-
-    Si se proporcionan logon_hours desde AD, valida contra esos datos.
-    Si no (usuario sin restricción configurada), usa el fallback hardcodeado
-    de días hábiles 08:00 a 18:00 hs.
-
-    Lanza un PermissionError si está fuera del rango.
-    """
     if current_app.config.get("RESTRICCION_HORARIA_DESHABILITADA", False):
         return
 
@@ -85,10 +64,6 @@ def check_access_hours(logon_hours=None):
 
 
 def get_ldap_connection(bind_dn=None, bind_password=None):
-    """
-    Establece una conexión activa con el servidor Active Directory.
-    Si no se proveen credenciales, realiza el bind inicial con la cuenta de administrador.
-    """
 
     server_ip = current_app.config["AD_SERVER"]
     port = current_app.config["AD_PORT"]
@@ -113,12 +88,6 @@ def get_ldap_connection(bind_dn=None, bind_password=None):
 
 
 def authenticate_user(username, password):
-    """
-    Autentica a un usuario contra el Active Directory.
-    1. Conecta con la cuenta admin para buscar el DN del usuario y leer sus atributos.
-    2. Realiza un segundo bind con el DN del usuario y su contraseña para validar credenciales.
-    3. Retorna la información del usuairo autenticado y sus grupos.
-    """
 
     # Limpiar prefijo de dominio si el usuario ingresó "dominio\usuario"
     if "\\" in username:
@@ -224,10 +193,6 @@ def authenticate_user(username, password):
 
 
 def map_role(groups):
-    """
-    Mapea los grupos del Active Directory del usuario a un rol interno del sistema
-    de acuerdo a las prioridades (Admin > Operador > Consulta).
-    """
     admin_group = current_app.config["AD_MAP_ADMIN"]
     operador_group = current_app.config["AD_MAP_OPERADOR"]
     consulta_group = current_app.config["AD_MAP_CONSULTA"]

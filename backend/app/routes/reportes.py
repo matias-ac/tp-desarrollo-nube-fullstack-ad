@@ -13,7 +13,6 @@ INJECTION_RE = re.compile(r'^[=+\-@\t\r]')
 
 
 def sanitizar_csv(valor):
-    """Previene CSV injection anteponiendo un espacio si el valor empieza con caracter peligroso."""
     if isinstance(valor, str) and INJECTION_RE.match(valor):
         return "'" + valor
     return valor

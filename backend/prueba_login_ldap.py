@@ -1,15 +1,4 @@
 #!/usr/bin/env python3
-"""
-Script independiente de prueba de autenticación LDAP contra Active Directory.
-
-Solicita usuario y contraseña en la terminal, se conecta al AD,
-autentica y muestra los atributos del usuario (incluyendo logonHours).
-
-Uso:
-  python prueba_login_ldap.py
-
-Requiere: pip install ldap3 python-dotenv
-"""
 
 import getpass
 import os
@@ -32,16 +21,6 @@ def conectar_ldap(servidor, puerto, bind_dn, bind_password):
 
 
 def decodificar_logon_hours(data):
-    """
-    Decodifica el atributo logonHours (21 bytes → 168 bits).
-    Cada bit representa una hora de la semana:
-      bit 0  = Domingo 00:00-01:00
-      ...
-      bit 23 = Domingo 23:00-24:00
-      bit 24 = Lunes 00:00-01:00
-      ...
-      bit 167 = Sábado 23:00-24:00
-    """
     if not data:
         return None
 

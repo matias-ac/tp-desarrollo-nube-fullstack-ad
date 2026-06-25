@@ -5,12 +5,10 @@ from flask import current_app
 
 
 def get_db_path():
-    """Obtiene la ruta del archivo JSON desde la configuración de Flask."""
     return current_app.config["DB_PATH"]
 
 
 def get_db():
-    """Lee y devuelve el diccionario completo de la base de datos."""
     path = get_db_path()
 
     # Si el archivo no existe, inicializarlo con estructura vacía
@@ -28,7 +26,6 @@ def get_db():
 
 
 def save_db(data):
-    """Escribe el diccionario completo en el archivo JSON (sobreescritura total)."""
     path = get_db_path()
 
     # Asegurar que la carpeta 'data/' exista
@@ -39,7 +36,6 @@ def save_db(data):
 
 
 def get_next_id(coleccion):
-    """Calcula el siguiente ID autoincremental (último ID + 1 para una colección)."""
     db = get_db()
     items = db.get(coleccion, [])
     if not items:
