@@ -66,14 +66,13 @@ def movements_weekly():
     movimientos = db["movimientos"]
 
     hoy = datetime.now()
-    days_labels = []
-    for i in range(6, -1, -1):
-        d = hoy - timedelta(days=i)
-        days_labels.append(d.strftime("%a"))
+    lunes = hoy - timedelta(days=hoy.weekday())
+
+    days_labels = ["lun", "mar", "mié", "jue", "vie", "sáb", "dom"]
 
     result = []
     for i in range(7):
-        day_date = (hoy - timedelta(days=6 - i)).strftime("%Y-%m-%d")
+        day_date = (lunes + timedelta(days=i)).strftime("%Y-%m-%d")
         entradas = sum(
             m["cantidad"]
             for m in movimientos
