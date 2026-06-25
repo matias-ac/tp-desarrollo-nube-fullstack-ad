@@ -2,7 +2,7 @@ import { type ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router";
 import {
   LayoutDashboard, PackageSearch, ArrowRightLeft, FileBarChart,
-  Clock, LogOut, ChevronDown,
+  LogOut, ChevronDown,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -26,9 +26,6 @@ export function Layout({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
-
-  const hour = new Date().getHours();
-  const timeStatus = hour >= 8 && hour < 18;
 
   const filteredNav = navItems.filter((item) => item.visible(user));
 
@@ -72,15 +69,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header */}
         <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-10">
-          <div className="flex items-center gap-2">
-            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border ${timeStatus ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-amber-50 text-amber-700 border-amber-200"
-              }`}>
-              <Clock size={14} />
-              {timeStatus ? "Hora actual dentro del rango de acceso" : "Fuera del rango de acceso óptimo"}
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 md:gap-6">
+          <div className="flex items-center gap-4 md:gap-6 ml-auto">
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger className="hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] p-1.5 h-auto">
                 <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
