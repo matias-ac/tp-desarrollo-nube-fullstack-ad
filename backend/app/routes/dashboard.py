@@ -54,7 +54,7 @@ def top_products():
     for pid, cantidad in sorted(egresos.items(), key=lambda x: x[1], reverse=True)[:5]:
         prod = next((p for p in productos if p["id"] == pid), None)
         if prod:
-            result.append({"name": prod["nombre"], "ventas": cantidad})
+            result.append({"name": prod["nombre"], "salidas": cantidad})
 
     return jsonify(result), 200
 
