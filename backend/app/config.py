@@ -15,7 +15,6 @@ class Config:
     # Configuración de LDAP / Active Directory
     AD_SERVER = os.environ.get("AD_SERVER", "127.0.0.1")
     AD_PORT = int(os.environ.get("AD_PORT", 3389))
-    AD_USE_SSL = os.environ.get("AD_USE_SSL", "False").lower() in ("true", "1", "t")
     AD_BASE_DN = os.environ.get("AD_BASE_DN", "DC=IFTS,DC=LOCAL")
     AD_ADMIN_DN = os.environ.get(
         "AD_ADMIN_DN", "CN=Administrator,CN=Users,DC=IFTS,DC=LOCAL"
@@ -28,7 +27,11 @@ class Config:
     AD_MAP_CONSULTA = os.environ.get("AD_MAP_CONSULTA", "GG_RRHH")
 
     # Bypass de restricción horaria (para pruebas y presentaciones)
-    BYPASS_ACCESS_HOURS = os.environ.get("BYPASS_ACCESS_HOURS", "False").lower() in ("true", "1", "t")
+    BYPASS_ACCESS_HOURS = os.environ.get("BYPASS_ACCESS_HOURS", "False").lower() in (
+        "true",
+        "1",
+        "t",
+    )
 
     # Configuración de JWT
     JWT_EXPIRATION_HOURS = int(os.environ.get("JWT_EXPIRATION_HOURS", 8))

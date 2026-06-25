@@ -25,8 +25,8 @@ from ldap3.utils.conv import escape_filter_chars as ldap_escape
 load_dotenv()
 
 
-def conectar_ldap(servidor, puerto, use_ssl, bind_dn, bind_password):
-    server = Server(servidor, port=puerto, use_ssl=use_ssl, get_info=ALL, connect_timeout=5)
+def conectar_ldap(servidor, puerto, bind_dn, bind_password):
+    server = Server(servidor, port=puerto, get_info=ALL, connect_timeout=5)
     conn = Connection(server, user=bind_dn, password=bind_password, auto_bind=True, raise_exceptions=True)
     return conn
 
@@ -105,7 +105,6 @@ def main():
     # Leer configuración desde .env
     ad_server = os.environ.get("AD_SERVER", "127.0.0.1")
     ad_port = int(os.environ.get("AD_PORT", 389))
-    ad_use_ssl = os.environ.get("AD_USE_SSL", "False").lower() in ("true", "1", "t")
     base_dn = os.environ.get("AD_BASE_DN", "DC=IFTS,DC=LOCAL")
     admin_dn = os.environ.get("AD_ADMIN_DN", "")
     admin_password = os.environ.get("AD_ADMIN_PASSWORD", "")
@@ -133,7 +132,7 @@ def main():
 
     print(f"\n[PASO 1] Conectando con cuenta administrativa...")
     try:
-        admin_conn = conectar_ldap(ad_server, ad_port, ad_use_ssl, admin_dn, admin_password)
+        admin_conn = conectar_ldap(ad_server, ad_port, admin_dn, admin_password)
         print(f"  ✅ Conexión establecida con {admin_dn}")
     except Exception as e:
         print(f"  ❌ Error de conexión: {e}")
@@ -165,7 +164,7 @@ def main():
 
     print(f"\n[PASO 3] Validando contraseña del usuario...")
     try:
-        user_conn = conectar_ldap(ad_server, ad_port, ad_use_ssl, user_dn, password)
+        user_conn = conectar_ldap(ad_server, ad_port, user_dn, password)
         user_conn.unbind()
         print(f"  ✅ Contraseña correcta")
     except Exception as e:

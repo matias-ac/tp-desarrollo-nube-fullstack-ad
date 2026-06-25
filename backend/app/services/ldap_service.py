@@ -92,14 +92,13 @@ def get_ldap_connection(bind_dn=None, bind_password=None):
 
     server_ip = current_app.config["AD_SERVER"]
     port = current_app.config["AD_PORT"]
-    use_ssl = current_app.config["AD_USE_SSL"]
     # Si no se pasan credenciales específicas, usar la cuenta de servicio/admin
     if bind_dn is None:
         bind_dn = current_app.config["AD_ADMIN_DN"]
         bind_password = current_app.config["AD_ADMIN_PASSWORD"]
 
     server = Server(
-        server_ip, port=port, use_ssl=use_ssl, get_info=ALL, connect_timeout=5
+        server_ip, port=port, get_info=ALL, connect_timeout=5
     )
 
     # Crear y retornar conexión con auto_bind activado
