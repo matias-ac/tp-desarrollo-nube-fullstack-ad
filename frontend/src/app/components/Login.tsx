@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { Package, ShieldAlert, Loader2 } from "lucide-react";
+import { Package, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth } from "../contexts/AuthContext";
-import { toast } from "sonner";
+
+function mensajeError(original: string): string {
+  const lower = original.toLowerCase();
+  if (lower.includes("horario") || lower.includes("hora")) {
+    return "Se está intentando acceder fuera del horario permitido";
+  }
+  return original;
+}
 
 export function Login() {
   const navigate = useNavigate();
@@ -11,6 +18,7 @@ export function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   React.useEffect(() => {
     if (isAuthenticated) navigate("/dashboard", { replace: true });
@@ -18,12 +26,13 @@ export function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage("");
     setLoading(true);
     try {
       await login(username, password);
       navigate("/dashboard");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error de conexión");
+      setErrorMessage(mensajeError(err instanceof Error ? err.message : "Error de conexión"));
     } finally {
       setLoading(false);
     }
@@ -77,12 +86,12 @@ export function Login() {
             />
           </div>
 
-          <div className="bg-blue-50 rounded-lg p-4 flex items-start gap-3 mt-6">
-            <ShieldAlert className="text-blue-600 flex-shrink-0 mt-0.5" size={18} />
-            <p className="text-sm text-blue-800 leading-tight">
-              Acceso permitido solo en días hábiles, de 8:00 a 18:00 hs.
-            </p>
-          </div>
+          {errorMessage && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3 mt-6">
+              <AlertCircle className="text-red-600 flex-shrink-0 mt-0.5" size={18} />
+              <p className="text-sm text-red-800 leading-tight">{errorMessage}</p>
+            </div>
+          )}
 
           <Button
             type="submit"

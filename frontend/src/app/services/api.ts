@@ -21,7 +21,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     throw new Error("Error de conexión");
   }
 
-  if (res.status === 401) {
+  if (res.status === 401 && !endpoint.startsWith("/auth/")) {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     window.location.href = "/";
