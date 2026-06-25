@@ -57,7 +57,7 @@ def check_access_hours(logon_hours=None):
 
     Lanza un PermissionError si está fuera del rango.
     """
-    if current_app.config.get("BYPASS_ACCESS_HOURS", False):
+    if current_app.config.get("RESTRICCION_HORARIA_DESHABILITADA", False):
         return
 
     now = datetime.now()

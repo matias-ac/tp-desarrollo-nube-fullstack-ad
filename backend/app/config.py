@@ -26,8 +26,8 @@ class Config:
     AD_MAP_OPERADOR = os.environ.get("AD_MAP_OPERADOR", "GG_Soporte")
     AD_MAP_CONSULTA = os.environ.get("AD_MAP_CONSULTA", "GG_RRHH")
 
-    # Bypass de restricción horaria (para pruebas y presentaciones)
-    BYPASS_ACCESS_HOURS = os.environ.get("BYPASS_ACCESS_HOURS", "False").lower() in (
+    # Deshabilitar restricción horaria (para pruebas y presentaciones)
+    RESTRICCION_HORARIA_DESHABILITADA = os.environ.get("RESTRICCION_HORARIA_DESHABILITADA", "False").lower() in (
         "true",
         "1",
         "t",
