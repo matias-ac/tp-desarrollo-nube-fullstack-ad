@@ -2,7 +2,7 @@ import { type ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router";
 import {
   LayoutDashboard, PackageSearch, ArrowRightLeft, FileBarChart,
-  Clock, LogOut, ChevronDown, Bell,
+  Clock, LogOut, ChevronDown,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -83,11 +83,6 @@ export function Layout({ children }: { children: ReactNode }) {
           </div>
 
           <div className="flex items-center gap-4 md:gap-6">
-            <button className="text-slate-400 hover:text-slate-600 relative">
-              <Bell size={20} />
-              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
-
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger className="hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] p-1.5 h-auto">
                 <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
