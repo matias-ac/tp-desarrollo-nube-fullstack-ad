@@ -18,20 +18,23 @@ def login():
     if not username or not password:
         return jsonify({"error": "Usuario y contraseña son requeridos"}), 400
 
-    # 1. Validar horario de acceso
-    try:
-        check_access_hours()
-    except PermissionError as e:
-        return jsonify({"error": str(e)}), 403
-
-    # 2. Autenticar contra AD
+    # 1. Autenticar contra AD (obtiene datos del usuario, incluyendo logonHours)
     try:
         user_data = authenticate_user(username, password)
     except RuntimeError as e:
         return jsonify({"error": str(e)}), 503
+    except PermissionError as e:
+        return jsonify({"error": str(e)}), 403
 
     if user_data is None:
         return jsonify({"error": "Credenciales inválidas"}), 401
+
+    # 2. Validar horario de acceso contra logonHours del AD (fallback si el usuario
+    #    no tiene logonHours configurado; si lo tiene, AD ya lo rechazó en el bind)
+    try:
+        check_access_hours(user_data.get("logon_hours"))
+    except PermissionError as e:
+        return jsonify({"error": str(e)}), 403
 
     # 3. Mapear rol según grupos
     role = map_role(user_data["groups"])
