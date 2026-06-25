@@ -40,10 +40,7 @@ export function Login() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-50">
-      <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply blur-3xl opacity-40"></div>
-      <div className="absolute top-[20%] right-[-10%] w-96 h-96 bg-emerald-400 rounded-full mix-blend-multiply blur-3xl opacity-40"></div>
-      <div className="absolute bottom-[-20%] left-[20%] w-96 h-96 bg-teal-300 rounded-full mix-blend-multiply blur-3xl opacity-40"></div>
+    <div className="min-h-screen flex items-center justify-center bg-slate-900">
 
       <div className="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
         <div className="flex flex-col items-center mb-8">
