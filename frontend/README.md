@@ -1,11 +1,27 @@
 
-  # Interfaz de Control de Stock
+# Frontend — Sistema de Gestión y Control de Stock
 
-  This is a code bundle for Interfaz de Control de Stock. The original project is available at https://www.figma.com/design/TkafdCAxBL3nTm1Md3zqlG/Interfaz-de-Control-de-Stock.
+SPA construida con **React 18 + Vite + TypeScript + Tailwind CSS 4 + Radix UI (shadcn/ui)**.
 
-  ## Running the code
+## Requisitos
 
-  Run `npm i` to install the dependencies.
+- Node.js 18+ y npm
 
-  Run `npm run dev` to start the development server.
-  
+## Instalación y Ejecución
+
+```bash
+npm install
+npm run dev       # Servidor de desarrollo → http://localhost:5173
+npm run build     # Build de producción → dist/
+```
+
+## Configuración
+
+Crear `frontend/.env` (ver `.env.example`):
+
+```
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+El `vite.config.ts` incluye un proxy que redirige `/api/*` al backend en `localhost:5000`.
+
